@@ -7,6 +7,7 @@ const router = useRouter()
 
 const title = ref('')
 const picture = ref(null)
+const price = ref(0)
 
 const handleSubmit = async () => {
   // Création du nouvel objet 'FormData'
@@ -18,6 +19,8 @@ const handleSubmit = async () => {
   // "Stringification" de l'objet contenant les autres informations
   const stringifiedInfos = JSON.stringify({
     title: title.value,
+    // 👇 Ajout information du prix
+    price: price.value
   })
   // Ajout des autres informations au 'FormData'
   formData.append('data', stringifiedInfos)
@@ -25,8 +28,8 @@ const handleSubmit = async () => {
   try {
     const { data } = await axios.post('http://localhost:1337/api/images', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+        'Content-Type': 'multipart/form-data'
+      }
     })
 
     console.log('response>>', data)
@@ -50,6 +53,10 @@ const imagePreview = computed(() => {
     <form @submit.prevent="handleSubmit">
       <label for="title">Titre :</label>
       <input type="title" id="title" placeholder="Mon chat" v-model="title" />
+
+      <!-- 👇 Ajout champs de saisie du prix -->
+      <label for="price">Prix :</label>
+      <input type="number" id="price" placeholder="32" v-model="price" />
 
       <input
         type="file"

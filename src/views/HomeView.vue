@@ -12,7 +12,7 @@ onMounted(async () => {
 
     imagesList.value = data.data
   } catch (error) {
-    console.log('catch >>>', error)
+    console.log('HomeView -catch >>>', error)
   }
 })
 
@@ -26,16 +26,23 @@ const GlobalStore = inject('GlobalStore')
 
     <div>
       <!-- Affichage de toutes les images de la liste -->
-      <div v-for="image in imagesList" :key="image.id">
-        <img :src="image.attributes.url.data[0].attributes.url" alt="" />
+      <div v-for="image in imagesList">
+        <img :key="image.id" :src="image.attributes.url.data.attributes.url" alt="" />
 
         <p>{{ image.attributes.title }}</p>
+        <!-- 👇 Ajout affichage du prix -->
+        <p>{{ image.attributes.price }} €</p>
+
+        <RouterLink :to="{ name: 'pay', params: { id: image.id } }"
+          ><button>Acheter</button></RouterLink
+        >
       </div>
     </div>
 
     <RouterLink :to="{ name: 'create' }"><button>Ajouter une image</button></RouterLink>
 
     <button @click="GlobalStore.updateUserToken('je-suis-un-token')">Ajouter un token</button>
+
     <button @click="GlobalStore.updateUserToken('')">Retirer le token</button>
   </main>
 </template>
@@ -54,7 +61,7 @@ img {
   margin-bottom: 10px;
 }
 button {
-  margin-left: 20px;
+  margin-right: 20px;
 }
 a button {
   margin-right: 160px;

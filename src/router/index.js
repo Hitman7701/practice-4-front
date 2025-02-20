@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { inject } from 'vue'
 
 import HomeView from '../views/HomeView.vue'
-import CreateView from '@/views/CreateView.vue'
+import CreateView from '../views/CreateView.vue'
+import PayView from '../views/PayView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,16 +11,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: HomeView
     },
     {
       path: '/create',
       name: 'create',
       component: CreateView,
       // Ajout des Meta Fields
-      meta: { requireAuth: true },
+      meta: { requireAuth: true }
     },
-  ],
+    {
+      path: '/pay/:id',
+      name: 'pay',
+      component: PayView,
+      // Ajout des Meta Fields
+      meta: { requireAuth: true },
+      // La params sera reçu en props par le composant
+      props: true
+    }
+  ]
 })
 
 // Définition du 'Global Before Guards'
